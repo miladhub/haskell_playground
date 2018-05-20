@@ -117,7 +117,14 @@ catMaybes ((Just x) : rest) = x : (catMaybes rest)
 catMaybes (Nothing : rest) = catMaybes rest
 
 flipMaybe :: [Maybe a] -> Maybe [a]
-flipMaybe = undefined
+flipMaybe ms =
+    let ls = extr ms
+    in if (length ls < length ms) then Nothing else Just ls
+
+extr :: [Maybe a] -> [a]
+extr [] = []
+extr (Nothing : _) = []
+extr (Just x : rest) = x : extr rest
 
 lefts' :: [Either a b] -> [a]
 lefts' [] = []
