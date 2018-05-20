@@ -1,9 +1,0 @@
-Configuring scanner-0.2...
-Preprocessing library for scanner-0.2..
-Building library for scanner-0.2..
-[1 of 4] Compiling Prelude          ( compat/Prelude.hs, .stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/Prelude.o )
-[2 of 4] Compiling Data.Either      ( compat/Data/Either.hs, .stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/Data/Either.o )
-[3 of 4] Compiling Scanner.Internal ( lib/Scanner/Internal.hs, .stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/Scanner/Internal.o )
-[4 of 4] Compiling Scanner          ( lib/Scanner.hs, .stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/Scanner.o )
-Installing library in /Users/milad/.stack/snapshots/x86_64-osx/lts-11.0/8.2.2/lib/x86_64-osx-ghc-8.2.2/scanner-0.2-KG2srvd5OXMIwR4XIyHh03
-Registering library for scanner-0.2..
