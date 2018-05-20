@@ -1,0 +1,75 @@
+Configuring hindent-5.2.5...
+Preprocessing library for hindent-5.2.5..
+Building library for hindent-5.2.5..
+[1 of 4] Compiling HIndent.CabalFile ( src/HIndent/CabalFile.hs, .stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/HIndent/CabalFile.o )
+
+[;1msrc/HIndent/CabalFile.hs:95:16: [;1m[35mwarning:[0m[0m[;1m [[;1m[35m-Wdeprecations[0m[0m[;1m][0m[0m[;1m
+    In the use of ‘parsePackageDescription’
+    (imported from Distribution.PackageDescription.Parse):
+    Deprecated: "Use parseGenericPackageDescription, old name is misleading"[0m[0m
+[;1m[34m   |[0m[0m
+[;1m[34m95 |[0m[0m           case [;1m[35mparsePackageDescription[0m[0m cabaltext of
+[;1m[34m   |[0m[0m[;1m[35m                ^^^^^^^^^^^^^^^^^^^^^^^[0m[0m
+[0m[0m[0m[2 of 4] Compiling HIndent.Types    ( src/HIndent/Types.hs, .stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/HIndent/Types.o )
+[3 of 4] Compiling HIndent.Pretty   ( src/HIndent/Pretty.hs, .stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/HIndent/Pretty.o )
+
+[;1msrc/HIndent/Pretty.hs:338:5: [;1m[35mwarning:[0m[0m[;1m [[;1m[35m-Wincomplete-patterns[0m[0m[;1m][0m[0m[;1m
+    Pattern match(es) are non-exhaustive
+    In a case alternative:
+        Patterns not matched:
+            (PUnboxedSum _ _ _ _)
+            (PSplice _ _)[0m[0m
+[;1m[34m    |[0m[0m
+[;1m[34m338 |[0m[0m     [;1m[35mcase x of[0m[0m
+[;1m[34m    |[0m[0m[;1m[35m     ^^^^^^^^^...[0m[0m
+[0m[0m[0m
+[;1msrc/HIndent/Pretty.hs:853:6: [;1m[35mwarning:[0m[0m[;1m [[;1m[35m-Wincomplete-patterns[0m[0m[;1m][0m[0m[;1m
+    Pattern match(es) are non-exhaustive
+    In a case alternative: Patterns not matched: (_:_:_)[0m[0m
+[;1m[34m    |[0m[0m
+[;1m[34m853 |[0m[0m      [;1m[35mcase mderivs of[0m[0m
+[;1m[34m    |[0m[0m[;1m[35m      ^^^^^^^^^^^^^^^...[0m[0m
+[0m[0m[0m
+[;1msrc/HIndent/Pretty.hs:887:8: [;1m[35mwarning:[0m[0m[;1m [[;1m[35m-Wincomplete-patterns[0m[0m[;1m][0m[0m[;1m
+    Pattern match(es) are non-exhaustive
+    In a case alternative: Patterns not matched: (_:_:_)[0m[0m
+[;1m[34m    |[0m[0m
+[;1m[34m887 |[0m[0m        [;1m[35mcase mderivs of[0m[0m
+[;1m[34m    |[0m[0m[;1m[35m        ^^^^^^^^^^^^^^^...[0m[0m
+[0m[0m[0m
+[;1msrc/HIndent/Pretty.hs:1934:8: [;1m[35mwarning:[0m[0m[;1m [[;1m[35m-Wincomplete-patterns[0m[0m[;1m][0m[0m[;1m
+    Pattern match(es) are non-exhaustive
+    In a case alternative: Patterns not matched: (_:_:_)[0m[0m
+[;1m[34m     |[0m[0m
+[;1m[34m1934 |[0m[0m        [;1m[35mcase mderivs of[0m[0m
+[;1m[34m     |[0m[0m[;1m[35m        ^^^^^^^^^^^^^^^...[0m[0m
+[0m[0m[0m[4 of 4] Compiling HIndent          ( src/HIndent.hs, .stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/HIndent.o )
+Preprocessing executable 'hindent' for hindent-5.2.5..
+Building executable 'hindent' for hindent-5.2.5..
+
+[;1m<built-in>:15:10: [;1m[31merror:[0m[0m[;1m[0m[0m[;1m
+     warning: non-portable path to file '".stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/HIndent/autogen/cabal_macros.h"'; specified path differs in case from file name on disk [-Wnonportable-include-path][0m[0m
+[0m[0m[0m#include ".stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/hindent/autogen/cabal_macros.h"
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         ".stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/HIndent/autogen/cabal_macros.h"
+1 warning generated.
+
+[;1m<no location info>: [;1m[35mwarning:[0m[0m[;1m [[;1m[35m-Wmissing-home-modules[0m[0m[;1m][0m[0m[;1m
+    These modules are needed for compilation but not listed in your .cabal file's other-modules: Paths_hindent[0m[0m
+[0m[0m[0m[1 of 3] Compiling Path.Find        ( src/main/Path/Find.hs, .stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/hindent/hindent-tmp/Path/Find.o )
+[2 of 3] Compiling Paths_hindent    ( .stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/hindent/autogen/Paths_hindent.hs, .stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/hindent/hindent-tmp/Paths_hindent.o )
+[3 of 3] Compiling Main             ( src/main/Main.hs, .stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/hindent/hindent-tmp/Main.o )
+
+[;1m<built-in>:15:10: [;1m[31merror:[0m[0m[;1m[0m[0m[;1m
+     warning: non-portable path to file '".stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/HIndent/autogen/cabal_macros.h"'; specified path differs in case from file name on disk [-Wnonportable-include-path][0m[0m
+[0m[0m[0m#include ".stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/hindent/autogen/cabal_macros.h"
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         ".stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/HIndent/autogen/cabal_macros.h"
+1 warning generated.
+
+[;1m<no location info>: [;1m[35mwarning:[0m[0m[;1m [[;1m[35m-Wmissing-home-modules[0m[0m[;1m][0m[0m[;1m
+    These modules are needed for compilation but not listed in your .cabal file's other-modules: Paths_hindent[0m[0m
+[0m[0m[0mLinking .stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/hindent/hindent ...
+Installing library in /Users/milad/.stack/snapshots/x86_64-osx/lts-11.0/8.2.2/lib/x86_64-osx-ghc-8.2.2/hindent-5.2.5-8hMZBgp2TNMCHl3IovqRBW
+Installing executable hindent in /Users/milad/.stack/snapshots/x86_64-osx/lts-11.0/8.2.2/bin
+Registering library for hindent-5.2.5..

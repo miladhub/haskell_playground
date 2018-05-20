@@ -1,0 +1,7 @@
+Configuring path-0.6.1...
+Preprocessing library for path-0.6.1..
+Building library for path-0.6.1..
+[1 of 2] Compiling Path.Internal    ( src/Path/Internal.hs, .stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/Path/Internal.o )
+[2 of 2] Compiling Path             ( src/Path.hs, .stack-work/dist/x86_64-osx/Cabal-2.0.1.0/build/Path.o )
+Installing library in /Users/milad/.stack/snapshots/x86_64-osx/lts-11.0/8.2.2/lib/x86_64-osx-ghc-8.2.2/path-0.6.1-I611AFolATvBGfymOQfzyB
+Registering library for path-0.6.1..

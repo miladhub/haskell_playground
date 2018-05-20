@@ -1,0 +1,7 @@
+foldl f z [1,2,..,N]
+f :: z -> n -> z
+(((z f 1) f 2) ... f N)
+
+foldr f z [1,2,..,N]
+f :: n -> z -> z
+(1 f (2 f (...N f z)))
