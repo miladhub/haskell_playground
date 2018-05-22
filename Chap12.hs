@@ -157,4 +157,13 @@ eitherMaybe' f (Right b) = Just $ f b
 eitherMaybe' _ _ = Nothing
 
 either' :: (a -> c) -> (b -> c) -> Either a b -> c
-either' = undefined
+either' fac _ (Left a) = fac a
+either' _ fbc (Right b) = fbc b
+
+eitherMaybe'' :: (b -> c) -> Either a b -> Maybe c
+eitherMaybe'' _ (Left _) = Nothing
+eitherMaybe'' fbc (Right b) = Just $ fbc b
+
+myIterate :: (a -> a) -> a -> [a]
+myIterate = undefined
+
