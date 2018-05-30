@@ -171,5 +171,7 @@ myIterate' :: (a -> a) -> a -> [a]
 myIterate' f a = scanl (flip const) a (myIterate' f $ f a)
 
 myUnfoldr :: (b -> Maybe (a, b)) -> b -> [a]
-myUnfoldr fmab b = undefined
-
+myUnfoldr fmab b =
+  case (fmab b) of
+    Nothing -> []
+    Just (a', b') -> a' : myUnfoldr fmab b'
