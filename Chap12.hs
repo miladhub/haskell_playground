@@ -175,3 +175,22 @@ myUnfoldr fmab b =
   case (fmab b) of
     Nothing -> []
     Just (a', b') -> a' : myUnfoldr fmab b'
+
+myIterate'' :: (a -> a) -> a -> [a]
+myIterate'' f a = myUnfoldr (\x -> Just $ (x, f x)) a
+
+data BinaryTree a = Leaf |
+  Node (BinaryTree a) a (BinaryTree a)
+  deriving (Eq, Ord, Show)
+
+unfold :: (a -> Maybe (a,b,a)) -> a -> BinaryTree b
+unfold fmaba a =
+  case (fmaba a) of
+    Nothing -> Leaf
+    Just (a', b, a'') -> Node (unfold fmaba a') b (unfold fmaba a'')
+
+treeBuild :: Integer -> BinaryTree Integer
+treeBuild n = unfold (\a -> if (a < n) then Just (a + 1, a, a + 1) else Nothing) 0
+
+
+
