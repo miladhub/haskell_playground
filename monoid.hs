@@ -1,3 +1,5 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+
 module MyMonoid where
 
 import Data.Monoid
@@ -71,6 +73,7 @@ instance Monoid Bull where
 type BullMappend =
   Bull -> Bull -> Bull -> Bool
 
+{-
 main :: IO ()
 main = do
   let ma = monoidAssoc
@@ -79,7 +82,40 @@ main = do
   quickCheck (ma :: BullMappend)
   quickCheck (mli :: Bull -> Bool)
   quickCheck (mlr :: Bull -> Bool)
+-}
 
 newtype First' a =
   First' { getFirst' :: Optional a }
   deriving (Eq, Show)
+
+instance Monoid (First' a) where
+  mempty = First' Nada
+  mappend (First' (Only a)) _ = (First' (Only a))
+  mappend _ (First' (Only a)) = (First' (Only a))
+  mappend _ _ = mempty
+
+firstMappend :: First' a -> First' a -> First' a
+firstMappend = mappend
+
+type FirstMappend =
+     First' String
+  -> First' String
+  -> First' String
+  -> Bool
+
+type FstId =
+  First' String -> Bool
+
+instance (Arbitrary a) => Arbitrary (First' a) where
+  arbitrary =
+   let arba = arbitrary :: Gen a
+       optarba = Only <$> arba :: Gen (Optional a)
+       nada = return Nada :: Gen (Optional a)
+   in frequency [(1, (First' <$> nada)), (1, (First' <$> optarba))]
+
+main :: IO ()
+main = do
+  quickCheck (monoidAssoc :: FirstMappend)
+  quickCheck (monoidLeftIdentity :: FstId)
+  quickCheck (monoidRightIdentity :: FstId)
+
