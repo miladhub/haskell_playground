@@ -1,7 +1,8 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module MySemigroup where
+module MyMonoid7 where
 
+import Data.Monoid hiding ((<>))
 import Data.Semigroup
 import Test.QuickCheck
 import Test.QuickCheck.Function
@@ -17,6 +18,10 @@ instance Semigroup (Comp a) where
     let ab' = unComp ca'
         ab'' = unComp ca''
     in Comp $ ab' . ab''
+
+instance Monoid (Comp a) where
+  mempty = Comp $ id
+  mappend = (<>)
 
 instance (Show a, Function a, CoArbitrary a, Arbitrary a) => Arbitrary (Comp a) where
   arbitrary = 
@@ -34,7 +39,18 @@ semigroupAssoc a' a b c =
 
 type MyAssoc = String -> Comp String -> Comp String -> Comp String -> Bool
 
+monoidLeftIdentity :: (Eq a) => a -> (Comp a) -> Bool
+monoidLeftIdentity a' cab = (unComp (mempty `mappend` cab)) a' == (unComp cab) a'
+
+monoidRightIdentity :: (Eq a) => a -> (Comp a) -> Bool
+monoidRightIdentity a' cab = (unComp (cab `mappend` mempty)) a' == (unComp cab) a'
+
 main :: IO ()
-main =
-  quickCheck (semigroupAssoc :: MyAssoc)
+main = do
+  let sa = semigroupAssoc
+      mli = monoidLeftIdentity
+      mlr = monoidRightIdentity
+  quickCheck (sa :: MyAssoc)
+  quickCheck (mli :: String -> Comp String -> Bool)
+  quickCheck (mlr :: String -> Comp String -> Bool)
 
