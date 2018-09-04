@@ -99,4 +99,12 @@ instance (Arbitrary a, Arbitrary b) => Arbitrary (Four' a b) where
 type FourIntFC' = Four' String Int -> (Fun Int Int) -> (Fun Int Int) -> Bool
 -- quickCheck (functorCompose :: FourIntFC')
 
+data Possibly a =
+  LolNope
+  | Yeppers a
+  deriving (Eq, Show)
+
+instance Functor Possibly where
+  fmap f (Yeppers a) = Yeppers $ f a
+  fmap _ LolNope = LolNope
 
