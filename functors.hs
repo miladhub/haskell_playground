@@ -36,3 +36,22 @@ data Four a b c d = Four a b c d deriving (Eq, Show)
 data Four' a b = Four' a a a b deriving (Eq, Show)
 
 data Trivial = Trivial deriving (Eq, Show)
+
+data Quant a b =
+  Finance
+  | Desk a
+  | Bloor b
+  deriving (Eq, Show)
+
+instance Functor (Quant a) where
+  fmap f (Bloor b) = Bloor $ f b
+  fmap _ (Desk a) = Desk a
+  fmap _ Finance = Finance
+
+data K a b =
+  K a
+  deriving (Eq, Show)
+
+instance Functor (K a) where
+  fmap _ (K a) = K a
+
