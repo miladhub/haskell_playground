@@ -48,10 +48,10 @@ instance Applicative ZipList' where
   ZipList' Nil <*> _ = ZipList' Nil
   _ <*> ZipList' Nil = ZipList' Nil
   ZipList' (Cons f fs) <*> ZipList' (Cons a as) =
-    ZipList' ( Cons (f a) ((ZipList' fs) <*> (ZipList' as)) )
+    ZipList' $ Cons (f a) $ getList ((ZipList' fs) <*> (ZipList' as))
 
---  pure = ZipList' <$> pure
---  (ZipList' lf) <*> (ZipList' l) = ZipList' $ lf <*> l
+getList :: ZipList' a -> List a
+getList (ZipList' l) = l
 
 instance Arbitrary a => Arbitrary (List a) where
   arbitrary =
