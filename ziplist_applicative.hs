@@ -4,6 +4,7 @@ import Data.Monoid
 import Test.QuickCheck
 import Test.QuickCheck.Checkers
 import Test.QuickCheck.Classes
+import Control.Applicative
 
 data List a =
   Nil
@@ -12,6 +13,7 @@ data List a =
 
 take' :: Int -> List a -> List a
 take' _ Nil = Nil
+take' 0 _   = Nil
 take' n (Cons a t) = Cons a (take' (n - 1) t)
 
 instance Functor List where
@@ -43,15 +45,16 @@ instance Functor ZipList' where
   fmap f (ZipList' xs) =
     ZipList' $ fmap f xs
 
-instance Applicative ZipList' where
-  pure = ZipList' <$> pure
-  ZipList' Nil <*> _ = ZipList' Nil
-  _ <*> ZipList' Nil = ZipList' Nil
-  ZipList' (Cons f fs) <*> ZipList' (Cons a as) =
-    ZipList' $ Cons (f a) $ getList ((ZipList' fs) <*> (ZipList' as))
+repeat' :: a -> List a
+repeat' a = Cons a $ repeat' a
 
-getList :: ZipList' a -> List a
-getList (ZipList' l) = l
+instance Applicative ZipList' where
+  pure = ZipList' . repeat'
+  ZipList' a <*> ZipList' b = ZipList' $ zipWithList ($) a b
+
+zipWithList :: (a -> b -> c) -> List a -> List b -> List c
+zipWithList f (Cons a ta) (Cons b tb) = Cons (f a b) $ zipWithList f ta tb
+zipWithList _ _           _           = Nil
 
 instance Arbitrary a => Arbitrary (List a) where
   arbitrary =
