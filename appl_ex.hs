@@ -60,8 +60,20 @@ data Three' a b = Three' a b b
 instance Functor (Three' a) where
   fmap f (Three' a b b') = Three' a (f b) (f b')
 
+instance (Monoid a) => Applicative (Three' a) where
+  pure b = Three' mempty b b
+  (Three' a fb fb') <*> (Three' a' b b') = Three' (a <> a') (fb b) (fb' b')
+
+instance (Arbitrary a, Arbitrary b) => Arbitrary (Three' a b) where
+  arbitrary = Three' <$> arbitrary <*> arbitrary <*> arbitrary
+
+instance (Eq a, Eq b) => EqProp (Three' a b) where
+  (=-=) = eq
+
 main :: IO ()
 main = do
   quickBatch $ applicative $ Pair ("b", "w", 1 :: Int) ("b", "w", 1 :: Int)
   quickBatch $ applicative $ Two "Foo" ("b", "w", 1 :: Int)
   quickBatch $ applicative $ Three "Foo" "Bar" ("b", "w", 1 :: Int)
+  quickBatch $ applicative $ Three' "Foo" ("b", "w", 1 :: Int) ("b", "w", 1 :: Int)
+
