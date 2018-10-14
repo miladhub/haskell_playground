@@ -38,8 +38,24 @@ instance (Arbitrary a, Arbitrary b) => Arbitrary (Two a b) where
 instance (Eq a, Eq b) => EqProp (Two a b) where
   (=-=) = eq
 
+data Three a b c = Three a b c
+  deriving (Eq, Show)
+
+instance Functor (Three a b) where
+  fmap f (Three a b c) = Three a b (f c)
+
+instance (Monoid a, Monoid b) => Applicative (Three a b) where
+  pure = Three mempty mempty
+  (Three a b fc) <*> (Three a' b' c) = Three (a <> a') (b <> b') (fc c)
+
+instance (Arbitrary a, Arbitrary b, Arbitrary c) => Arbitrary (Three a b c) where
+  arbitrary = Three <$> arbitrary <*> arbitrary <*> arbitrary
+
+instance (Eq a, Eq b, Eq c) => EqProp (Three a b c) where
+  (=-=) = eq
+
 main :: IO ()
 main = do
   quickBatch $ applicative $ Pair ("b", "w", 1 :: Int) ("b", "w", 1 :: Int)
   quickBatch $ applicative $ Two "Foo" ("b", "w", 1 :: Int)
-
+  quickBatch $ applicative $ Three "Foo" "Bar" ("b", "w", 1 :: Int)
