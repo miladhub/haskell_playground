@@ -70,10 +70,43 @@ instance (Arbitrary a, Arbitrary b) => Arbitrary (Three' a b) where
 instance (Eq a, Eq b) => EqProp (Three' a b) where
   (=-=) = eq
 
+data Four a b c d = Four a b c d
+  deriving (Eq, Show)
+
+instance Functor (Four a b c) where
+  fmap f (Four a b c d) = Four a b c (f d)
+
+instance (Arbitrary a, Arbitrary b, Arbitrary c, Arbitrary d) => Arbitrary (Four a b c d) where
+  arbitrary = Four <$> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary
+
+instance (Eq a, Eq b, Eq c, Eq d) => EqProp (Four a b c d) where
+  (=-=) = eq
+
+instance (Monoid a, Monoid b, Monoid c) => Applicative (Four a b c) where
+  pure = Four mempty mempty mempty
+  (Four a b c fd) <*> (Four a' b' c' d) = Four (a <> a') (b <> b') (c <> c') (fd d)
+
+data Four' a b = Four' a a a b
+  deriving (Eq, Show)
+
+instance Functor (Four' a) where
+  fmap f (Four' a a' a'' b) = Four' a a' a'' (f b)
+
+instance (Arbitrary a, Arbitrary b) => Arbitrary (Four' a b) where
+  arbitrary = Four' <$> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary
+
+instance (Eq a, Eq b) => EqProp (Four' a b) where
+  (=-=) = eq
+
+instance (Monoid a) => Applicative (Four' a) where
+  pure = Four' mempty mempty mempty
+  (Four' a a' a'' fb) <*> (Four' aa aa' aa'' b) = Four' (a <> aa) (a' <> aa') (a'' <> aa'') (fb b)
+
 main :: IO ()
 main = do
   quickBatch $ applicative $ Pair ("b", "w", 1 :: Int) ("b", "w", 1 :: Int)
   quickBatch $ applicative $ Two "Foo" ("b", "w", 1 :: Int)
   quickBatch $ applicative $ Three "Foo" "Bar" ("b", "w", 1 :: Int)
   quickBatch $ applicative $ Three' "Foo" ("b", "w", 1 :: Int) ("b", "w", 1 :: Int)
-
+  quickBatch $ applicative $ Four "a" "b" "c" ("b", "w", 1 :: Int)
+  quickBatch $ applicative $ Four' "a" "b" "c" ("b", "w", 1 :: Int)
