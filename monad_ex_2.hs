@@ -17,7 +17,7 @@ instance Applicative (PhhhbbtttEither b) where
   pure = Leftie
   (Leftie fa) <*> (Leftie a) = Leftie $ fa a
   (Leftie _) <*> (Rightie b) = Rightie b
-  (Rightie b) <*> (Rightie _) = Rightie b
+  (Rightie b) <*> _ = Rightie b
 
 instance Monad (PhhhbbtttEither b) where
   return = pure
