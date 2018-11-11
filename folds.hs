@@ -38,3 +38,9 @@ myones = foldr (\_ l -> l ++ [1]) []
 
 myToList :: (Foldable t) => t a -> [a]
 myToList = foldr (\a l -> a : l) []
+
+myfold :: (Foldable t, Monoid m) => t m -> m
+myfold = foldMap id
+
+myFoldMap :: (Foldable t, Monoid m) => (a -> m) -> t a -> m
+myFoldMap f = foldr (\a m -> f a <> m) mempty
