@@ -44,3 +44,33 @@ myfold = foldMap id
 
 myFoldMap :: (Foldable t, Monoid m) => (a -> m) -> t a -> m
 myFoldMap f = foldr (\a m -> f a <> m) mempty
+
+data Constant a b = Constant b deriving (Eq, Show)
+
+instance Foldable (Constant a) where
+  foldr f z (Constant b) = f b z
+
+data Two a b = Two a b deriving (Eq, Show)
+
+instance Foldable (Two a) where
+  foldr f z (Two a b) = f b z
+
+data Three a b c = Three a b c deriving (Eq, Show)
+
+instance Foldable (Three a b) where
+  foldr f z (Three a b c) = f c z
+
+data Three' a b = Three' a b b deriving (Eq, Show)
+
+instance Foldable (Three' a) where
+  foldr f z (Three' a _ b) = f b z
+
+data Four' a b = Four' a b b b deriving (Eq, Show)
+
+instance Foldable (Four' a) where
+  foldr f z (Four' a _ _ b) = f b z
+
+
+filterF :: (Applicative f, Foldable t, Monoid (f a))
+  => (a -> Bool) -> t a -> f a
+filterF f = foldMap (\a -> if f a then pure a else mempty)
