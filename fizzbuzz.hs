@@ -22,4 +22,8 @@ addResult n = do
 main :: IO ()
 main =
   mapM_ putStrLn $
-    reverse $ fizzbuzzList [1..100]
+    fizzbuzzFromTo 1 100
+    --reverse $ fizzbuzzList [1,100]
+
+fizzbuzzFromTo :: Integer -> Integer -> [String]
+fizzbuzzFromTo = undefined
