@@ -10,7 +10,15 @@ instance Functor (Moi s) where
 
 instance Applicative (Moi s) where
   pure a = Moi $ \s -> (a, s)
-  Moi f <*> (Moi g) = Moi $ \s ->
+  Moi f <*> Moi g = Moi $ \s ->
     let (fab, s') = f s
         (a, s'') = g s'
     in (fab a, s'')
+
+instance Monad (Moi s) where
+  return = pure
+  Moi f >>= g = Moi $ \s ->
+    let (a, s') = f s
+        x = g a
+        y = (runMoi x)
+    in y s'
