@@ -57,3 +57,38 @@ rollDie' =
 rollDieThreeTimes' :: State StdGen (Die, Die, Die) 
 rollDieThreeTimes' =
   liftA3 (,,) rollDie rollDie rollDie
+
+rollsToGetTwenty :: StdGen -> Int 
+rollsToGetTwenty g = go 0 0 g
+  where
+    go :: Int -> Int -> StdGen -> Int 
+    go sum count gen
+      | sum >= 20 = count 
+      | otherwise =
+        let (die, nextGen) = randomR (1, 6) gen
+        in go (sum + die) (count + 1) nextGen
+
+rollInt :: State StdGen Int
+rollInt = state (randomR (1, 6))
+
+rollsToGetN :: Int -> StdGen -> Int
+rollsToGetN n g = go 0 0 g
+  where
+    go :: Int -> Int -> StdGen -> Int
+    go sum count gen
+      | sum >= n = count
+      | otherwise =
+        let (die, nextGen) = randomR (1, 6) gen
+        in go (sum + die) (count + 1) nextGen
+
+--  (evalState $ (replicateM n) rollDie) g
+
+rollsCountLogged :: Int -> StdGen -> (Int, [Die])
+rollsCountLogged n g = go 0 0 [] g
+  where
+    go :: Int -> Int -> [Die] -> StdGen -> (Int, [Die])
+    go sum count c gen
+      | sum >= n = (count, c)
+      | otherwise =
+        let (die, nextGen) = randomR (1, 6) gen
+        in go (sum + die) (count + 1) (intToDie die : c) nextGen
