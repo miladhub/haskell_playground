@@ -21,3 +21,8 @@ instance (Applicative f, Applicative g)
   (Compose f) <*> (Compose a) =
     let x = (<*>) <$> f 
     in Compose $ x <*> a
+
+instance (Foldable f, Foldable g) =>
+    Foldable (Compose f g) where
+  foldMap am (Compose fga) =
+    foldMap (foldMap am) fga
