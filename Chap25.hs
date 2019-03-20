@@ -18,4 +18,6 @@ instance (Applicative f, Applicative g)
   pure = undefined
   
   (<*>) :: Compose f g (a -> b) -> Compose f g a -> Compose f g b
-  (Compose f) <*> (Compose a) = undefined
+  (Compose f) <*> (Compose a) =
+    let x = (<*>) <$> f 
+    in Compose $ x <*> a
