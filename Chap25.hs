@@ -64,8 +64,27 @@ class Bifunctor p where
   second = bimap id
 
 data Deux a b = Deux a b
-  deriving (Eq, Show)
 
 instance Bifunctor Deux where
   first f (Deux a b) = Deux (f a) b
   second f (Deux a b) = Deux a (f b)
+
+data Conzt a b = Conzt a
+
+instance Bifunctor Conzt where
+  first f (Conzt a) = Conzt (f a)
+  second _ (Conzt a) = Conzt a
+
+data Drei a b c = Drei a b c
+
+instance Bifunctor (Drei a) where
+  first f (Drei a b c) = Drei a (f b) c
+  second f (Drei a b c) = Drei a b (f c)
+
+data SuperDrei a b c = SuperDrei a b
+
+instance Bifunctor (SuperDrei a) where
+  first f (SuperDrei a b) = SuperDrei a (f b)
+  second _ (SuperDrei a b) = (SuperDrei a b)
+
+
