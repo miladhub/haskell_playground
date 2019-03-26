@@ -52,3 +52,20 @@ instance (Monad f, Monad g)
     in undefined
 -}
 
+class Bifunctor p where
+  {-# MINIMAL bimap | first, second #-}
+  bimap :: (a -> b) -> (c -> d) -> p a c -> p b d
+  bimap f g = first f . second g
+
+  first :: (a -> b) -> p a c -> p b c
+  first f = bimap f id
+  
+  second :: (b -> c) -> p a b -> p a c
+  second = bimap id
+
+data Deux a b = Deux a b
+  deriving (Eq, Show)
+
+instance Bifunctor Deux where
+  first f (Deux a b) = Deux (f a) b
+  second f (Deux a b) = Deux a (f b)
