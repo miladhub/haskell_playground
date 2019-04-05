@@ -87,4 +87,28 @@ instance Bifunctor (SuperDrei a) where
   first f (SuperDrei a b) = SuperDrei a (f b)
   second _ (SuperDrei a b) = (SuperDrei a b)
 
+data SemiDrei a b c = SemiDrei a
+
+instance Bifunctor (SemiDrei a) where
+  first f (SemiDrei a) = SemiDrei a
+  second f (SemiDrei a) = SemiDrei a
+
+data Quadriceps a b c d =
+  Quadzzz a b c d
+
+instance Bifunctor (Quadriceps a b) where
+  first f (Quadzzz a b c d) = Quadzzz a b (f c) d
+  second f (Quadzzz a b c d) = Quadzzz a b c (f d)
+
+{-
+data Either a b =
+    Left a
+  | Right b
+-}
+
+instance Bifunctor Either where
+  first f (Left a) = Left (f a)
+  first _ (Right b) = Right b
+  second f (Right b) = Right (f b)
+  second _ (Left a) = Left a
 
