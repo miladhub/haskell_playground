@@ -74,3 +74,9 @@ swapEither ea =
     Left e  -> Right e
     Right a -> Left a
 
+{-
+ either :: (a -> c) -> (b -> c) -> Either a b -> c
+-}
+eitherT :: Monad m => (a -> m c) -> (b -> m c) -> EitherT a m b -> m c
+eitherT = undefined
+
