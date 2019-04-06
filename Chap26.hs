@@ -38,3 +38,14 @@ instance (Monad m) => Monad (MaybeT m) where
     case ma of
       Nothing -> return Nothing -- wraps the Nothing into m (Nothing) 
       Just x  -> runMaybeT (f x) -- x :: a, f x :: MaybeT (m (Maybe b)), after run becomes m (Maybe b)
+
+newtype EitherT e m a =
+  EitherT { runEitherT :: m (Either e a) }
+
+instance Functor m => Functor (EitherT e m) where
+  fmap f (EitherT mea) = EitherT $ (fmap . fmap) f mea
+
+instance Applicative m => Applicative (EitherT e m) where
+  pure = undefined
+  f <*> a = undefined
+
