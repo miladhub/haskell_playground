@@ -78,5 +78,7 @@ swapEither ea =
  either :: (a -> c) -> (b -> c) -> Either a b -> c
 -}
 eitherT :: Monad m => (a -> m c) -> (b -> m c) -> EitherT a m b -> m c
-eitherT = undefined
+eitherT f g (EitherT mea) =
+  let x = fmap (either f g) mea
+  in x >>= id 
 
