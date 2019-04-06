@@ -24,3 +24,17 @@ instance (Applicative m) => Applicative (MaybeT m) where
   (MaybeT fab) <*> (MaybeT mma) =
      let mab = (<*>) <$> fab
      in MaybeT $ mab <*> mma
+
+{-
+ m (Maybe a) ... (a -> (MaybeT m b)) ...->... Maybe T $ m (Maybe b)
+ g :: (Maybe a) -> m (Maybe b)
+ f <$> mma -> m (Maybe (MaybeT m b))
+ m (Maybe (m (Maybe m b))
+-}
+instance (Monad m) => Monad (MaybeT m) where
+  return = pure
+  (MaybeT mma) >>= f = MaybeT $ do -- needs a m (Maybe b)
+    ma <- mma -- m (Maybe a) -> Maybe a
+    case ma of
+      Nothing -> return Nothing -- wraps the Nothing into m (Nothing) 
+      Just x  -> runMaybeT (f x) -- x :: a, f x :: MaybeT (m (Maybe b)), after run becomes m (Maybe b)
