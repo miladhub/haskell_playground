@@ -57,3 +57,11 @@ instance Applicative m => Applicative (EitherT e m) where
         y = x <*> mea
     in EitherT $ y
 
+instance Monad m => Monad (EitherT e m) where
+  return = pure
+  (EitherT meab) >>= f = EitherT $ do -- m (Either e b)
+    eab <- meab
+    case eab of
+      Left b  -> return (Left b)
+      Right a -> runEitherT (f a)
+
