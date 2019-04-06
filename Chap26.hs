@@ -82,3 +82,25 @@ eitherT f g (EitherT mea) =
   let x = fmap (either f g) mea
   in x >>= id 
 
+newtype ReaderT r m a =
+  ReaderT { runReaderT :: r -> m a }
+
+instance (Functor m) => Functor (ReaderT r m) where
+  fmap f (ReaderT rma) =
+    ReaderT $ (fmap f) . rma
+
+instance (Applicative m) => Applicative (ReaderT r m) where
+  pure a = ReaderT $ \x -> pure a
+  (ReaderT rmf) <*> (ReaderT rma) =
+    let x = \r -> (rmf r) <*> (rma r)
+    in ReaderT x
+
+instance (Monad m) => Monad (ReaderT r m) where
+  return = pure
+  (ReaderT rma) >>= f =
+    let x = \r -> (fmap f) $ (rma r)
+        y = (fmap . fmap) runReaderT x
+        z = \r -> y r <*> (return r)
+        w = fmap (>>= id) z
+    in ReaderT w
+
