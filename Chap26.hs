@@ -45,7 +45,15 @@ newtype EitherT e m a =
 instance Functor m => Functor (EitherT e m) where
   fmap f (EitherT mea) = EitherT $ (fmap . fmap) f mea
 
+{-
+ m (Either e (a -> b)) ... m (Either e a) ~> m (Either e b)
+ (Either e (a -> b)) <*> (Either e a) ~> (Either e b)
+
+-}
 instance Applicative m => Applicative (EitherT e m) where
-  pure = undefined
-  f <*> a = undefined
+  pure a = EitherT $ (pure . pure) a
+  (EitherT meab) <*> (EitherT mea) =
+    let x = (<*>) <$> meab
+        y = x <*> mea
+    in EitherT $ y
 
