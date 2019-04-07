@@ -130,3 +130,10 @@ instance (Monad m) => Monad (StateT s m) where
     (b, s2) <- runStateT (f a) $ s1
     return (b, s2)
 
+embedded :: MaybeT
+  (EitherT String
+    (ReaderT String IO))
+  Int
+embedded = 
+  let x = ReaderT (const (Right (Just 1)))
+  in undefined
