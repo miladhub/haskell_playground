@@ -130,10 +130,25 @@ instance (Monad m) => Monad (StateT s m) where
     (b, s2) <- runStateT (f a) $ s1
     return (b, s2)
 
-embedded :: MaybeT
-  (EitherT String
-    (ReaderT String IO))
-  Int
+{-
+newtype EitherT e m a =
+  EitherT { runExceptT :: m (Either e a) }
+
+newtype MaybeT m a =
+  MaybeT { runMaybeT :: m (Maybe a) }
+
+newtype ReaderT r m a =
+  ReaderT { runReaderT :: r -> m a }
+-}
+
+embedded :: MaybeT (EitherT String (ReaderT () IO)) Int
 embedded = 
-  let x = ReaderT (const (Right (Just 1)))
-  in undefined
+  let x = const (Right (Just 1)) -- x :: () -> Either String (Maybe Integer)
+      w = return <$> x           -- w :: () -> IO (Either String (Maybe Integer))
+      z = ReaderT $ w            -- z :: ReaderT () IO (Either String (Maybe Integer))
+      y = EitherT $ z            -- y :: EitherT String (ReaderT () IO) (Maybe Integer)
+ in MaybeT y
+
+embedded' :: MaybeT (EitherT String (ReaderT () IO)) Int
+embedded' =
+  MaybeT $ EitherT $ ReaderT $ return <$> (const (Right (Just 1)))
