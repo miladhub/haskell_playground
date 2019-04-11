@@ -1,6 +1,6 @@
 module Chap26 where
 
-import Data.Tuple
+import Control.Monad.Trans.Class
 
 newtype MaybeT m a =
   MaybeT { runMaybeT :: m (Maybe a) }
@@ -152,3 +152,12 @@ embedded =
 embedded' :: MaybeT (EitherT String (ReaderT () IO)) Int
 embedded' =
   MaybeT $ EitherT $ ReaderT $ return <$> (const (Right (Just 1)))
+
+instance MonadTrans (EitherT e) where
+  lift ma = EitherT $ (fmap Right ma)
+
+instance MonadTrans (StateT s) where
+  lift ma = StateT $ \s -> do
+    a <- ma
+    return (a, s)
+
