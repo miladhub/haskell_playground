@@ -180,3 +180,42 @@ instance (MonadIO m) => MonadIO (ReaderT r m) where
 
 instance (MonadIO m) => MonadIO (StateT s m) where
   liftIO = lift . liftIO
+
+foo :: ReaderT r Maybe Integer
+foo = ReaderT $ \r -> Just 42
+
+newtype Reader r a = Reader { runReader :: r -> a }
+
+instance Functor (Reader r) where
+  fmap f (Reader ra) = Reader $ \r -> f (ra r)
+
+instance Applicative (Reader r) where
+  pure a = Reader $ \r -> a
+  (Reader f) <*> (Reader ra) = Reader $ \r ->
+    let ab = f r
+    in ab . ra $ r
+
+instance Monad (Reader r) where
+  return a = Reader $ \r -> a
+  (Reader ra) >>= f = Reader $ \r ->
+    let a = ra r
+        rrb = f a
+        rb = runReader rrb
+    in rb r
+
+bar :: MaybeT (Reader r) Integer
+bar = MaybeT $ Reader $ \r -> Just 42
+
+baz = do
+  f <- foo
+  return $ f * 2
+
+baz' = do
+  f <- bar
+  return $ f * 2
+
+f = runReaderT foo
+b = runMaybeT bar
+bb = runReader b
+
+-- f has same type of bb
