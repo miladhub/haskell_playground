@@ -1,14 +1,17 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+
 module Morra where
 
 import Control.Monad
 
 main :: IO ()
-main = loop
+main = forever loop
 
-loop = forever $ do
+loop = do
   putStrLn "-- p is player"
   putStrLn "-- c is computer"
-  putStr   "P: "
-  p <- readLn
-  putStr   "C: "
-  c <- readLn
+  putStr "P: "
+  (p :: Integer) <- readLn
+  putStr "C: "
+  (c :: Integer) <- readLn
+  putStrLn $ "Sum: " ++ (show $ p + c)
