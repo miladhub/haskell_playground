@@ -4,6 +4,7 @@ module Morra where
 
 import Control.Monad
 import Control.Monad.Trans.State.Lazy
+import Control.Monad.IO.Class
 
 data Winner =
   P | C
@@ -21,13 +22,25 @@ main = do
   putStrLn "-- P is Player"
   putStrLn "-- C is Computer"
   putStrLn "-- Player is odds, computer is evens."
-  (_, s) <- runStateT game $ Scores 0 0
+  (w, s) <- runStateT game $ Scores 0 0
   putStrLn $ "Final score " ++ (show s)
+  putStrLn $ "Winner " ++ (show w)
 
-game :: StateT Scores IO ()
-game = replicateM_ 3 $ StateT $ \s -> do
+game :: StateT Scores IO Winner
+game = do
+  mw <- loop
+  case mw of
+    Nothing -> game
+    Just w  -> return w
+
+loop :: StateT Scores IO (Maybe Winner)
+loop = StateT $ \s -> do
   w <- play
-  return ((), scores s w)
+  let newScore = scores s w
+  if (p newScore) == 3 || (c newScore) == 3 then
+    return (Just w, newScore)
+  else
+    return (Nothing, newScore)
 
 play :: IO Winner
 play = do
@@ -42,4 +55,3 @@ play = do
 scores :: Scores -> Winner -> Scores
 scores s P = Scores ( (p s) + 1 ) (c s)
 scores s C = Scores (p s) ( (c s) + 1 )
-
