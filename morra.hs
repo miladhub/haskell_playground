@@ -28,22 +28,22 @@ main = do
 
 game :: StateT Scores IO Winner
 game = do
-  mw <- loop
+  mw <- turn
   case mw of
     Nothing -> game
     Just w  -> return w
 
-loop :: StateT Scores IO (Maybe Winner)
-loop = StateT $ \s -> do
-  w <- play
+turn :: StateT Scores IO (Maybe Winner)
+turn = StateT $ \s -> do
+  w <- throw
   let newScore = scores s w
   if (p newScore) == 3 || (c newScore) == 3 then
     return (Just w, newScore)
   else
     return (Nothing, newScore)
 
-play :: IO Winner
-play = do
+throw :: IO Winner
+throw = do
   putStr "P: "
   p <- readLn
   putStr "C: "
