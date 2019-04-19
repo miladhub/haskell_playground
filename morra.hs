@@ -5,6 +5,7 @@ module Morra where
 import Control.Monad
 import Control.Monad.Trans.State.Lazy
 import Control.Monad.IO.Class
+import System.Random
 
 data Winner =
   P | C
@@ -46,8 +47,8 @@ throw :: IO Winner
 throw = do
   putStr "P: "
   p <- readLn
-  putStr "C: "
-  c <- readLn
+  c <- oneOrTwo
+  putStrLn $ "C: " ++ (show c)
   let winner = if (p + c) `mod` 2 == 0 then C else P
   putStrLn $ "- " ++ (show winner) ++ " wins"
   return winner
@@ -55,3 +56,6 @@ throw = do
 scores :: Scores -> Winner -> Scores
 scores s P = Scores ( (p s) + 1 ) (c s)
 scores s C = Scores (p s) ( (c s) + 1 )
+
+oneOrTwo :: IO Integer
+oneOrTwo = getStdRandom (randomR (1,2))
