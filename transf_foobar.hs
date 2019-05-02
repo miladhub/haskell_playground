@@ -55,7 +55,6 @@ foo' :: ReaderT Int (MaybeT IO) String
 foo' = do
   t <- ask
   f <- liftIO getLine
-  return f
   if (length f) > t then
     return f
   else
@@ -67,7 +66,6 @@ bar' :: ReaderT Int (MaybeT IO) String
 bar' = do
   t <- ask
   f <- liftIO getLine
-  return f
   if (length f) > t then
     return f
   else
